@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>利用Hexo搭建个人博客</title>
+    <link href="/hexo-starter/"/>
+    <url>/hexo-starter/</url>
+    
+    <content type="html"><![CDATA[<p><a href="https://hexo.io/">Hexo</a> 是一个基于 Node.js 的静态博客框架，可以帮助用户快速搭建个人博客网站。使用 Hexo，可以使用 Markdown 语法编写文章，然后将其转换为静态 HTML 页面，最后发布到网站上。</p><h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npx init<br></code></pre></td></tr></table></figure><p>项目的大致目录结构如下：</p><p><img src="/hexo-starter/image-1.png" alt="项目目录结构"></p><p>其中，<code>_config.yml</code> 是项目的配置文件，<code>source</code> 目录存放源文件，<code>themes</code> 目录存放主题文件，<code>public</code> 目录存放生成的静态文件。<code>scaffolds</code> 目录存放模板文件，默认有三个模板文件：<code>draft.md</code>、<code>page.md</code>、<code>post.md</code>，分别对应草稿、页面、文章。文章就是一般意思上的一篇博客，页面则是一些静态页面，比如关于页面、友情链接页面等。所谓模板则是指执行<code>hexo new</code> 命令时，会根据模板文件生成对应的文件，即填充模板文件中的内容。</p><p><code>_config.yml</code> 文件是全局配置文件，可设置网站标题，作者，描述，主题，部署等信息。</p><h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>执行<code>hexo new [layout]</code>命令可以新建草稿，文章或页面，<code>layout</code>也即新建内容的类型(草稿，文章或页面)，默认为<code>post</code>，即新建文章。执行该命令后，会在<code>source/_posts</code>目录下生成一个<code>My New Post.md</code>文件，其内容如下：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: My New Post<br>date: 2023-10-21 11:11:33<br>category: example<span class="hljs-emphasis">_category</span><br><span class="hljs-emphasis">tags:</span><br><span class="hljs-emphasis">    - tag1</span><br><span class="hljs-emphasis">    - tag2</span><br><span class="hljs-emphasis">---</span><br></code></pre></td></tr></table></figure><p><code>category</code>为文章分类，可理解为文章所在的目录，<code>tags</code>为文章标签，<code>date</code>为文章创建时间，<code>title</code>为文章标题。在该文件中以markdown语法书写博客，更多信息可参考<a href="https://hexo.io/docs/writing.html">官方文档</a></p><h3 id="主题设置"><a href="#主题设置" class="headerlink" title="主题设置"></a>主题设置</h3><p>Hexo提供了一些默认主题，可在<code>themes</code>目录下找到，也可以在<a href="https://hexo.io/themes/">官方主题库</a>中找到更多主题。下载到<code>themes</code>文件夹下，在全局<code>_config.yml</code>文件中修改<code>theme</code>字段为主题名称即可。这里题主使用的是Fluid主题，根据其<a href="https://github.com/fluid-dev/hexo-theme-fluid">官方文档</a>进行配置即可。</p><h3 id="图片引用"><a href="#图片引用" class="headerlink" title="图片引用"></a>图片引用</h3><p>在markdown中引入图片时，可以使用图床也可以使用本地文件。如果使用本地文件，需要将图片放在<code>source/images</code>目录下，然后在markdown中使用相对路径引用即可。也可以针对每个文章单独建立一个目录，将图片放在该目录下，然后在markdown中使用相对路径引用，这种情况需要在<code>_config.yml</code>文件中设置<code>post_asset_folder: true</code>，这样在执行<code>hexo new</code>命令时，会在<code>source/_posts</code>目录下为每个文章新建一个同名目录，该目录下存放文章的图片。</p><p>题主推荐使用插件<a href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>，该插件支持直接解析markdown语法的图片引用，即可以直接使用<code>![image](./image.png)</code>的方式引用图片，而不需要使用<code>&#123;% asset_img image.png %&#125;</code>的方式引用图片。</p><p>安装<a href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>后，在全局<code>_config.yml</code>文件中添加如下配置，当然此处需要保持<code>post_asset_folder: true</code>，否则无法解析图片引用。其解析原理可参考官方仓库Readme中的说明。</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">post_asset_folder:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">marked:</span><br>  <span class="hljs-attr">prependRoot:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">postAsset:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure><p><a href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>默认只能解析<code>![image](image.png)</code>的方式引用图片，如果想要支持<code>![image](folder/image.png)</code>的方式引用图片，可参考<a href="https://github.com/hexojs/hexo-renderer-marked/issues/216">issue</a>，在<code>node_modules -&gt; hexo-render-marked -&gt; lib -&gt; render.js</code>文件中修改代码即可。</p><p><img src="/hexo-starter/image-3.png" alt="改动部分"></p><p>在VScode中编写markdown文件，如果直接粘贴图片，则默认图片会保存到当前markdown文件的同级目录下，而我们想要效果是图片保存到与文件名同名的目录下，此时可以修改VScode的设置项<code>markdown.copyFiles.destination</code>，可以自定义不同的markdown文件的图片保存目录。</p><p><img src="/hexo-starter/image-4.png" alt="设置图片的保存路径"></p><p>比如此处做如下设置，则图片会保存到与markdown文件同名的目录下。<code>*</code>代表通配符，即当前设置适用于所有markdown文件，详情可参考<a href="https://www.jianshu.com/p/76802b97152e">VSCode 中自定义 Markdown 插入图片的保存路径</a>。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;markdown.copyFiles.destination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;*&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;documentBaseName&#125;/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure><h3 id="网站部署"><a href="#网站部署" class="headerlink" title="网站部署"></a>网站部署</h3><p>在<code>_config.yml</code>文件中设置<code>deploy</code>字段，可将网站部署到GitHub Pages，也可以部署到其他平台，比如Coding Pages，Netlify等。此处以GitHub Pages为例，首先需要在GitHub上新建一个仓库，仓库名为<code>&lt;username&gt;.github.io</code>，其中<code>&lt;username&gt;</code>为GitHub用户名，然后在<code>_config.yml</code>文件中添加如下配置：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repo:</span> <br>    <span class="hljs-attr">github:</span> <span class="hljs-string">&lt;username&gt;/&lt;username&gt;.github.io</span><br>    <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br></code></pre></td></tr></table></figure><p>然后执行<code>hexo clean</code>命令清除缓存，执行<code>hexo deploy</code>命令部署网站，即可将网站部署到GitHub Pages上。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Hexo</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端防抖与节流</title>
+    <link href="/front/debounce-stream-js/"/>
+    <url>/front/debounce-stream-js/</url>
+    
+    <content type="html"><![CDATA[<p>前端防抖与节流</p><span id="more"></span><p>前端防抖与节流的实现</p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>防抖与节流的应用场景，以及如何选择，以及如何实现，以及如何优化，以及如何测试，以及如何调试。所谓防抖是指：在事件被触发n秒后再执行回调，如果在这n秒内又被触发，则重新计时。所谓节流是指：规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。所谓节流是指：规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。</p><h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">debounce</span>(<span class="hljs-params">fn, wait</span>) &#123;<br>    <span class="hljs-keyword">let</span> timer = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">let</span> context = <span class="hljs-variable language_">this</span>;<br>        <span class="hljs-keyword">let</span> args = <span class="hljs-variable language_">arguments</span>;<br>        <span class="hljs-keyword">if</span> (timer) &#123;<br>            <span class="hljs-built_in">clearTimeout</span>(timer);<br>            timer = <span class="hljs-literal">null</span>;<br>        &#125;<br>        timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>            fn.<span class="hljs-title function_">apply</span>(context, args);<br>        &#125;, wait);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">throttle</span>(<span class="hljs-params">fn, wait</span>) &#123;<br>    <span class="hljs-keyword">let</span> timer = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">let</span> context = <span class="hljs-variable language_">this</span>;<br>        <span class="hljs-keyword">let</span> args = <span class="hljs-variable language_">arguments</span>;<br>        <span class="hljs-keyword">if</span> (!timer) &#123;<br>            timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>                fn.<span class="hljs-title function_">apply</span>(context, args);<br>                timer = <span class="hljs-literal">null</span>;<br>            &#125;, wait);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JavaScript</tag>
+      
+      <tag>防抖</tag>
+      
+      <tag>节流</tag>
+      
+      <tag>debounce</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
