@@ -16,28 +16,25 @@
   <meta name="author" content="wenzhaoabc">
   <meta name="keywords" content="wenzhaoabs, wenzhaoabc&#39;s blog">
   
-    <meta name="description" content="Hexo 是一个基于 Node.js 的静态博客框架，可以帮助用户快速搭建个人博客网站。使用 Hexo，可以使用 Markdown 语法编写文章，然后将其转换为静态 HTML 页面，最后发布到网站上。 快速入门新建项目1npx init  项目的大致目录结构如下：  其中，_config.yml 是项目的配置文件，source 目录存放源文件，themes 目录存放主题文件，public 目录存放">
+    <meta name="description" content="使用Neo4j和LangChain集成非结构化和图知识增强QA前言本文是对项目使用Neo4j和LangChain集成非结构化和图知识增强QA的复现。该项目主要目的是借助向量索引加快构建知识图谱。 前置知识LangChain LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考Lang">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Hexo搭建个人博客">
-<meta property="og:url" content="https://wenzhaoabc.github.io/hexo-starter/index.html">
+<meta property="og:title" content="使用Neo4j和LangChain集成非结构化和图知识增强QA">
+<meta property="og:url" content="https://wenzhaoabc.github.io/llm/mistral-langchain-neo4j/index.html">
 <meta property="og:site_name" content="wenzhaoabc">
-<meta property="og:description" content="Hexo 是一个基于 Node.js 的静态博客框架，可以帮助用户快速搭建个人博客网站。使用 Hexo，可以使用 Markdown 语法编写文章，然后将其转换为静态 HTML 页面，最后发布到网站上。 快速入门新建项目1npx init  项目的大致目录结构如下：  其中，_config.yml 是项目的配置文件，source 目录存放源文件，themes 目录存放主题文件，public 目录存放">
+<meta property="og:description" content="使用Neo4j和LangChain集成非结构化和图知识增强QA前言本文是对项目使用Neo4j和LangChain集成非结构化和图知识增强QA的复现。该项目主要目的是借助向量索引加快构建知识图谱。 前置知识LangChain LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考Lang">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-1.png">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-3.png">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-4.png">
-<meta property="article:published_time" content="2023-10-21T03:11:33.000Z">
-<meta property="article:modified_time" content="2023-10-21T13:00:03.375Z">
+<meta property="article:published_time" content="2023-12-03T03:11:33.000Z">
+<meta property="article:modified_time" content="2023-12-25T13:52:36.305Z">
 <meta property="article:author" content="wenzhaoabc">
-<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="LangChain">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wenzhaoabc.github.io/hexo-starter/image-1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>利用Hexo搭建个人博客 - wenzhaoabc</title>
+  <title>使用Neo4j和LangChain集成非结构化和图知识增强QA - wenzhaoabc</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="利用Hexo搭建个人博客"></span>
+            <span id="subtitle" data-typed-text="使用Neo4j和LangChain集成非结构化和图知识增强QA"></span>
           
         </div>
 
@@ -241,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-21 11:11" pubdate>
-          2023年10月21日 上午
+        <time datetime="2023-12-03 11:11" pubdate>
+          2023年12月3日 上午
         </time>
       </span>
     
@@ -253,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          1.4k 字
         
       </span>
     
@@ -264,7 +261,7 @@
         
         
         
-          20 分钟
+          12 分钟
         
       </span>
     
@@ -301,40 +298,32 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">利用Hexo搭建个人博客</h1>
+            <h1 id="seo-header">使用Neo4j和LangChain集成非结构化和图知识增强QA</h1>
             
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 是一个基于 Node.js 的静态博客框架，可以帮助用户快速搭建个人博客网站。使用 Hexo，可以使用 Markdown 语法编写文章，然后将其转换为静态 HTML 页面，最后发布到网站上。</p>
-<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npx init<br></code></pre></td></tr></table></figure>
+                <h1 id="使用Neo4j和LangChain集成非结构化和图知识增强QA"><a href="#使用Neo4j和LangChain集成非结构化和图知识增强QA" class="headerlink" title="使用Neo4j和LangChain集成非结构化和图知识增强QA"></a>使用Neo4j和LangChain集成非结构化和图知识增强QA</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是对项目<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/iHS5wl_Xzv_FKkdNISjJcw"><em>使用Neo4j和LangChain集成非结构化和图知识增强QA</em></a>的复现。该项目主要目的是借助向量索引加快构建知识图谱。</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p><strong>LangChain</strong></p>
+<p>LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考<a target="_blank" rel="noopener" href="https://liaokong.gitbook.io/llm-kai-fa-jiao-cheng">LangChain中文入门教程</a>.</p>
+<p><strong>Neo4j</strong></p>
+<p>Neo4j是一个高性能的图数据库，它将结构化数据存储在网络上而不是表中。关于Neo4j的使用，可参考<a target="_blank" rel="noopener" href="https://neo4j.com/docs/getting-started/">Neo4j官方文档</a>.</p>
+<p><strong>Mistral</strong></p>
+<p>Mistral是一个较新的大语言模型，尤其是mistral-7B，是目前综合性能最好的7B模型。关于Mistral的使用，可参考<a target="_blank" rel="noopener" href="https://docs.mistral.ai/">Mistral官方文档</a>.</p>
+<h2 id="复现流程"><a href="#复现流程" class="headerlink" title="复现流程"></a>复现流程</h2><h3 id="1-安装依赖"><a href="#1-安装依赖" class="headerlink" title="1. 安装依赖"></a>1. 安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install langchain openai wikipedia tiktoken neo4j python-dotenv transformers<br></code></pre></td></tr></table></figure>
 
-<p>项目的大致目录结构如下：</p>
-<p><img src="/hexo-starter/image-1.png" srcset="/img/loading.gif" lazyload alt="项目目录结构"></p>
-<p>其中，<code>_config.yml</code> 是项目的配置文件，<code>source</code> 目录存放源文件，<code>themes</code> 目录存放主题文件，<code>public</code> 目录存放生成的静态文件。<code>scaffolds</code> 目录存放模板文件，默认有三个模板文件：<code>draft.md</code>、<code>page.md</code>、<code>post.md</code>，分别对应草稿、页面、文章。文章就是一般意思上的一篇博客，页面则是一些静态页面，比如关于页面、友情链接页面等。所谓模板则是指执行<code>hexo new</code> 命令时，会根据模板文件生成对应的文件，即填充模板文件中的内容。</p>
-<p><code>_config.yml</code> 文件是全局配置文件，可设置网站标题，作者，描述，主题，部署等信息。</p>
-<h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+<h3 id="2-安装Neo4j数据库"><a href="#2-安装Neo4j数据库" class="headerlink" title="2. 安装Neo4j数据库"></a>2. 安装Neo4j数据库</h3><p>参考neo4j官方文档<a target="_blank" rel="noopener" href="https://neo4j.com/docs/operations-manual/current/installation/linux/debian/">Debian-based distributions</a>。Neo4J的dep安装包可从<a target="_blank" rel="noopener" href="https://neo4j.com/deployment-center/#gdb-tab">Neo4j官网</a>下载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装JDK17</span><br>sudo apt install openjdk-17-jdk-headless<br><br><span class="hljs-comment"># 添加Neo4j的源</span><br>wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;deb https://debian.neo4j.com stable 4.3&#x27;</span> | sudo <span class="hljs-built_in">tee</span> -a /etc/apt/sources.list.d/neo4j.list<br>sudo apt-get update<br><br><span class="hljs-comment"># 安装neo4j的dep文件</span><br>dpkg -i neo4j_5.14.0_all.deb<br><br><span class="hljs-comment"># 启动neo4j</span><br>neo4j start<br><br><span class="hljs-comment"># 注意，安装neo4j的dep文件时，可能会遇到依赖缺失的问题，执行下述命令补全依赖即可</span><br>sudo apt --fix-broken install<br><br><span class="hljs-comment"># 修改默认密码</span><br>neo4j-admin dbms set-initial-password pwdofneo4j<br></code></pre></td></tr></table></figure>
 
-<p>执行<code>hexo new [layout]</code>命令可以新建草稿，文章或页面，<code>layout</code>也即新建内容的类型(草稿，文章或页面)，默认为<code>post</code>，即新建文章。执行该命令后，会在<code>source/_posts</code>目录下生成一个<code>My New Post.md</code>文件，其内容如下：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: My New Post<br>date: 2023-10-21 11:11:33<br>category: example<span class="hljs-emphasis">_category</span><br><span class="hljs-emphasis">tags:</span><br><span class="hljs-emphasis">    - tag1</span><br><span class="hljs-emphasis">    - tag2</span><br><span class="hljs-emphasis">---</span><br></code></pre></td></tr></table></figure>
-<p><code>category</code>为文章分类，可理解为文章所在的目录，<code>tags</code>为文章标签，<code>date</code>为文章创建时间，<code>title</code>为文章标题。在该文件中以markdown语法书写博客，更多信息可参考<a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">官方文档</a></p>
-<h3 id="主题设置"><a href="#主题设置" class="headerlink" title="主题设置"></a>主题设置</h3><p>Hexo提供了一些默认主题，可在<code>themes</code>目录下找到，也可以在<a target="_blank" rel="noopener" href="https://hexo.io/themes/">官方主题库</a>中找到更多主题。下载到<code>themes</code>文件夹下，在全局<code>_config.yml</code>文件中修改<code>theme</code>字段为主题名称即可。这里题主使用的是Fluid主题，根据其<a target="_blank" rel="noopener" href="https://github.com/fluid-dev/hexo-theme-fluid">官方文档</a>进行配置即可。</p>
-<h3 id="图片引用"><a href="#图片引用" class="headerlink" title="图片引用"></a>图片引用</h3><p>在markdown中引入图片时，可以使用图床也可以使用本地文件。如果使用本地文件，需要将图片放在<code>source/images</code>目录下，然后在markdown中使用相对路径引用即可。也可以针对每个文章单独建立一个目录，将图片放在该目录下，然后在markdown中使用相对路径引用，这种情况需要在<code>_config.yml</code>文件中设置<code>post_asset_folder: true</code>，这样在执行<code>hexo new</code>命令时，会在<code>source/_posts</code>目录下为每个文章新建一个同名目录，该目录下存放文章的图片。</p>
-<p>题主推荐使用插件<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>，该插件支持直接解析markdown语法的图片引用，即可以直接使用<code>![image](./image.png)</code>的方式引用图片，而不需要使用<code>&#123;% asset_img image.png %&#125;</code>的方式引用图片。</p>
-<p>安装<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>后，在全局<code>_config.yml</code>文件中添加如下配置，当然此处需要保持<code>post_asset_folder: true</code>，否则无法解析图片引用。其解析原理可参考官方仓库Readme中的说明。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">post_asset_folder:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">marked:</span><br>  <span class="hljs-attr">prependRoot:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">postAsset:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>默认只能解析<code>![image](image.png)</code>的方式引用图片，如果想要支持<code>![image](folder/image.png)</code>的方式引用图片，可参考<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked/issues/216">issue</a>，在<code>node_modules -&gt; hexo-render-marked -&gt; lib -&gt; render.js</code>文件中修改代码即可。</p>
-<p><img src="/hexo-starter/image-3.png" srcset="/img/loading.gif" lazyload alt="改动部分"></p>
-<p>在VScode中编写markdown文件，如果直接粘贴图片，则默认图片会保存到当前markdown文件的同级目录下，而我们想要效果是图片保存到与文件名同名的目录下，此时可以修改VScode的设置项<code>markdown.copyFiles.destination</code>，可以自定义不同的markdown文件的图片保存目录。</p>
-<p><img src="/hexo-starter/image-4.png" srcset="/img/loading.gif" lazyload alt="设置图片的保存路径"></p>
-<p>比如此处做如下设置，则图片会保存到与markdown文件同名的目录下。<code>*</code>代表通配符，即当前设置适用于所有markdown文件，详情可参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/76802b97152e">VSCode 中自定义 Markdown 插入图片的保存路径</a>。</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;markdown.copyFiles.destination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;*&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;documentBaseName&#125;/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="网站部署"><a href="#网站部署" class="headerlink" title="网站部署"></a>网站部署</h3><p>在<code>_config.yml</code>文件中设置<code>deploy</code>字段，可将网站部署到GitHub Pages，也可以部署到其他平台，比如Coding Pages，Netlify等。此处以GitHub Pages为例，首先需要在GitHub上新建一个仓库，仓库名为<code>&lt;username&gt;.github.io</code>，其中<code>&lt;username&gt;</code>为GitHub用户名，然后在<code>_config.yml</code>文件中添加如下配置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">deploy:</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">git</span><br>  <span class="hljs-attr">repo:</span> <br>    <span class="hljs-attr">github:</span> <span class="hljs-string">&lt;username&gt;/&lt;username&gt;.github.io</span><br>    <span class="hljs-attr">branch:</span> <span class="hljs-string">master</span><br></code></pre></td></tr></table></figure>
-
-<p>然后执行<code>hexo clean</code>命令清除缓存，执行<code>hexo deploy</code>命令部署网站，即可将网站部署到GitHub Pages上。</p>
+<h2 id="从非结构化数据构建知识图谱"><a href="#从非结构化数据构建知识图谱" class="headerlink" title="从非结构化数据构建知识图谱"></a>从非结构化数据构建知识图谱</h2><p>三个问题，参见<a target="_blank" rel="noopener" href="https://medium.com/neo4j/construct-knowledge-graphs-from-unstructured-text-877be33300a2">Neo4J开发人员博客</a>。</p>
+<ol>
+<li>Extracting nodes and relationships</li>
+<li>Entity disambiguation</li>
+<li>Importing into Neo4j</li>
+</ol>
+<h3 id="Extracting-nodes-and-relationships"><a href="#Extracting-nodes-and-relationships" class="headerlink" title="Extracting nodes and relationships"></a>Extracting nodes and relationships</h3><p>将<code>inout text</code>分割成适合<code>context window</code>大小的<code>chunk</code>，输入LLM，使其提取出<code>entities</code>和<code>relations</code>，并按一定格式输出，每个<code>chunk</code>与前一个<code>chunk</code>设置有重叠部分，以保证<code>entities</code>和<code>relations</code>的完整性。为了保持跨块不同类型实体的标记的一致性，向LLM提供了在先前块中提取的节点类型列表。</p>
+<h3 id="Entity-disambiguation"><a href="#Entity-disambiguation" class="headerlink" title="Entity disambiguation"></a>Entity disambiguation</h3><p>将<code>entities</code>按类型分组，将每一组分别提供给LLM，借助LLM消除重复实体并合并属性。</p>
+<h3 id="Importing-into-Neo4j"><a href="#Importing-into-Neo4j" class="headerlink" title="Importing into Neo4j"></a>Importing into Neo4j</h3><p>将LLM输出的<code>entities</code>和<code>relations</code>转为CSV格式，借助neo4j的<code>LOAD CSV</code>命令导入到neo4j中。</p>
 
                 
               </div>
@@ -353,7 +342,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Hexo/" class="category-chain-item">Hexo</a>
+  <a href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="category-chain-item">大模型</a>
   
   
 
@@ -368,7 +357,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Hexo/" class="print-no-link">#Hexo</a>
+        <a href="/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/tags/LangChain/" class="print-no-link">#LangChain</a>
       
     </div>
   
@@ -380,8 +371,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>利用Hexo搭建个人博客</div>
-      <div>https://wenzhaoabc.github.io/hexo-starter/</div>
+      <div>使用Neo4j和LangChain集成非结构化和图知识增强QA</div>
+      <div>https://wenzhaoabc.github.io/llm/mistral-langchain-neo4j/</div>
     </div>
     <div class="license-meta">
       
@@ -393,7 +384,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月21日</div>
+          <div>2023年12月3日</div>
         </div>
       
       
@@ -425,9 +416,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/go/go-starter/" title="GO语言入门">
+                      <a href="/llm/VAE/" title="变分自编码器（VAE）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">GO语言入门</span>
+                        <span class="hidden-mobile">变分自编码器（VAE）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -435,8 +426,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/front/debounce-stream-js/" title="前端防抖与节流">
-                        <span class="hidden-mobile">前端防抖与节流</span>
+                      <a href="/go/go-starter/" title="GO语言入门">
+                        <span class="hidden-mobile">GO语言入门</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
