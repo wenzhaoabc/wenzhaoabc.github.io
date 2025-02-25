@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="wenzhaoabc">
 <meta property="og:description" content="Hexo 是一个基于 Node.js 的静态博客框架，可以帮助用户快速搭建个人博客网站。使用 Hexo，可以使用 Markdown 语法编写文章，然后将其转换为静态 HTML 页面，最后发布到网站上。 快速入门新建项目1npx init  项目的大致目录结构如下：  其中，_config.yml 是项目的配置文件，source 目录存放源文件，themes 目录存放主题文件，public 目录存放">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-1.png">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-3.png">
-<meta property="og:image" content="https://wenzhaoabc.github.io/hexo-starter/image-4.png">
+<meta property="og:image" content="https://wenzhaoabc.github.io/_posts/hexo-starter/image-1.png">
+<meta property="og:image" content="https://wenzhaoabc.github.io/_posts/hexo-starter/image-3.png">
+<meta property="og:image" content="https://wenzhaoabc.github.io/_posts/hexo-starter/image-4.png">
 <meta property="article:published_time" content="2023-10-21T03:11:33.000Z">
 <meta property="article:modified_time" content="2023-10-21T13:00:03.375Z">
 <meta property="article:author" content="wenzhaoabc">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wenzhaoabc.github.io/hexo-starter/image-1.png">
+<meta name="twitter:image" content="https://wenzhaoabc.github.io/_posts/hexo-starter/image-1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -310,7 +310,7 @@
 <h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npx init<br></code></pre></td></tr></table></figure>
 
 <p>项目的大致目录结构如下：</p>
-<p><img src="/hexo-starter/image-1.png" srcset="/img/loading.gif" lazyload alt="项目目录结构"></p>
+<p><img src="/_posts/hexo-starter/image-1.png" srcset="/img/loading.gif" lazyload alt="项目目录结构"></p>
 <p>其中，<code>_config.yml</code> 是项目的配置文件，<code>source</code> 目录存放源文件，<code>themes</code> 目录存放主题文件，<code>public</code> 目录存放生成的静态文件。<code>scaffolds</code> 目录存放模板文件，默认有三个模板文件：<code>draft.md</code>、<code>page.md</code>、<code>post.md</code>，分别对应草稿、页面、文章。文章就是一般意思上的一篇博客，页面则是一些静态页面，比如关于页面、友情链接页面等。所谓模板则是指执行<code>hexo new</code> 命令时，会根据模板文件生成对应的文件，即填充模板文件中的内容。</p>
 <p><code>_config.yml</code> 文件是全局配置文件，可设置网站标题，作者，描述，主题，部署等信息。</p>
 <h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
@@ -325,9 +325,9 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">post_asset_folder:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">marked:</span><br>  <span class="hljs-attr">prependRoot:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">postAsset:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked">hexo-render-marked</a>默认只能解析<code>![image](image.png)</code>的方式引用图片，如果想要支持<code>![image](folder/image.png)</code>的方式引用图片，可参考<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-marked/issues/216">issue</a>，在<code>node_modules -&gt; hexo-render-marked -&gt; lib -&gt; render.js</code>文件中修改代码即可。</p>
-<p><img src="/hexo-starter/image-3.png" srcset="/img/loading.gif" lazyload alt="改动部分"></p>
+<p><img src="/_posts/hexo-starter/image-3.png" srcset="/img/loading.gif" lazyload alt="改动部分"></p>
 <p>在VScode中编写markdown文件，如果直接粘贴图片，则默认图片会保存到当前markdown文件的同级目录下，而我们想要效果是图片保存到与文件名同名的目录下，此时可以修改VScode的设置项<code>markdown.copyFiles.destination</code>，可以自定义不同的markdown文件的图片保存目录。</p>
-<p><img src="/hexo-starter/image-4.png" srcset="/img/loading.gif" lazyload alt="设置图片的保存路径"></p>
+<p><img src="/_posts/hexo-starter/image-4.png" srcset="/img/loading.gif" lazyload alt="设置图片的保存路径"></p>
 <p>比如此处做如下设置，则图片会保存到与markdown文件同名的目录下。<code>*</code>代表通配符，即当前设置适用于所有markdown文件，详情可参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/76802b97152e">VSCode 中自定义 Markdown 插入图片的保存路径</a>。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;markdown.copyFiles.destination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;*&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$&#123;documentBaseName&#125;/&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
