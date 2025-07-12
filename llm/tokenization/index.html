@@ -16,25 +16,26 @@
   <meta name="author" content="wenzhaoabc">
   <meta name="keywords" content="wenzhaoabs, wenzhaoabc&#39;s blog">
   
-    <meta name="description" content="使用Neo4j和LangChain集成非结构化和图知识增强QA前言本文是对项目使用Neo4j和LangChain集成非结构化和图知识增强QA的复现。该项目主要目的是借助向量索引加快构建知识图谱。 前置知识LangChain LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考Lang">
+    <meta name="description" content="1. 分词和词嵌入分词是将原始文本切分成一系列基本单位(tokens)的过程，将连续文本转换为离散的标记序列，便于模型处理。常见算法包括基于空格&#x2F;规则的分词，BPE(Byte-Pair Encoding)和WordPiece等。 词嵌入是将token(词或子词)映射到低维连续向量空间，将离散符号转换为捕捉语义关系的连续向量表示。常见的词嵌入模型包括Word2Vec, GloVe, FastText">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Neo4j和LangChain集成非结构化和图知识增强QA">
-<meta property="og:url" content="https://wenzhaoabc.github.io/llm/mistral-langchain-neo4j/index.html">
+<meta property="og:title" content="分词和词嵌入">
+<meta property="og:url" content="https://wenzhaoabc.github.io/llm/tokenization/index.html">
 <meta property="og:site_name" content="wenzhaoabc">
-<meta property="og:description" content="使用Neo4j和LangChain集成非结构化和图知识增强QA前言本文是对项目使用Neo4j和LangChain集成非结构化和图知识增强QA的复现。该项目主要目的是借助向量索引加快构建知识图谱。 前置知识LangChain LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考Lang">
+<meta property="og:description" content="1. 分词和词嵌入分词是将原始文本切分成一系列基本单位(tokens)的过程，将连续文本转换为离散的标记序列，便于模型处理。常见算法包括基于空格&#x2F;规则的分词，BPE(Byte-Pair Encoding)和WordPiece等。 词嵌入是将token(词或子词)映射到低维连续向量空间，将离散符号转换为捕捉语义关系的连续向量表示。常见的词嵌入模型包括Word2Vec, GloVe, FastText">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-12-03T03:11:33.000Z">
-<meta property="article:modified_time" content="2023-12-25T13:52:36.305Z">
+<meta property="article:published_time" content="2025-02-26T06:35:00.000Z">
+<meta property="article:modified_time" content="2025-03-04T11:21:10.382Z">
 <meta property="article:author" content="wenzhaoabc">
 <meta property="article:tag" content="LLM">
-<meta property="article:tag" content="LangChain">
+<meta property="article:tag" content="Tokenization">
+<meta property="article:tag" content="Word Embedding">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>使用Neo4j和LangChain集成非结构化和图知识增强QA - wenzhaoabc</title>
+  <title>分词和词嵌入 - wenzhaoabc</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -112,7 +113,119 @@
 
 
   
-<meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <body>
@@ -227,7 +340,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="使用Neo4j和LangChain集成非结构化和图知识增强QA"></span>
+            <span id="subtitle" data-typed-text="分词和词嵌入"></span>
           
         </div>
 
@@ -238,8 +351,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-03 11:11" pubdate>
-          2023年12月3日 上午
+        <time datetime="2025-02-26 14:35" pubdate>
+          2025年2月26日 下午
         </time>
       </span>
     
@@ -250,7 +363,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          2.7k 字
         
       </span>
     
@@ -261,7 +374,7 @@
         
         
         
-          12 分钟
+          23 分钟
         
       </span>
     
@@ -298,32 +411,60 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">使用Neo4j和LangChain集成非结构化和图知识增强QA</h1>
+            <h1 id="seo-header">分词和词嵌入</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="使用Neo4j和LangChain集成非结构化和图知识增强QA"><a href="#使用Neo4j和LangChain集成非结构化和图知识增强QA" class="headerlink" title="使用Neo4j和LangChain集成非结构化和图知识增强QA"></a>使用Neo4j和LangChain集成非结构化和图知识增强QA</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是对项目<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/iHS5wl_Xzv_FKkdNISjJcw"><em>使用Neo4j和LangChain集成非结构化和图知识增强QA</em></a>的复现。该项目主要目的是借助向量索引加快构建知识图谱。</p>
-<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p><strong>LangChain</strong></p>
-<p>LangChain加速大语言模型应用开发的套件，其集成了本地数据加载，LLM模型的调用等，方便LLM对外部数据源的调用，方便进行与LLM的交互。对于LLM的使用，可参考<a target="_blank" rel="noopener" href="https://liaokong.gitbook.io/llm-kai-fa-jiao-cheng">LangChain中文入门教程</a>.</p>
-<p><strong>Neo4j</strong></p>
-<p>Neo4j是一个高性能的图数据库，它将结构化数据存储在网络上而不是表中。关于Neo4j的使用，可参考<a target="_blank" rel="noopener" href="https://neo4j.com/docs/getting-started/">Neo4j官方文档</a>.</p>
-<p><strong>Mistral</strong></p>
-<p>Mistral是一个较新的大语言模型，尤其是mistral-7B，是目前综合性能最好的7B模型。关于Mistral的使用，可参考<a target="_blank" rel="noopener" href="https://docs.mistral.ai/">Mistral官方文档</a>.</p>
-<h2 id="复现流程"><a href="#复现流程" class="headerlink" title="复现流程"></a>复现流程</h2><h3 id="1-安装依赖"><a href="#1-安装依赖" class="headerlink" title="1. 安装依赖"></a>1. 安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install langchain openai wikipedia tiktoken neo4j python-dotenv transformers<br></code></pre></td></tr></table></figure>
-
-<h3 id="2-安装Neo4j数据库"><a href="#2-安装Neo4j数据库" class="headerlink" title="2. 安装Neo4j数据库"></a>2. 安装Neo4j数据库</h3><p>参考neo4j官方文档<a target="_blank" rel="noopener" href="https://neo4j.com/docs/operations-manual/current/installation/linux/debian/">Debian-based distributions</a>。Neo4J的dep安装包可从<a target="_blank" rel="noopener" href="https://neo4j.com/deployment-center/#gdb-tab">Neo4j官网</a>下载。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装JDK17</span><br>sudo apt install openjdk-17-jdk-headless<br><br><span class="hljs-comment"># 添加Neo4j的源</span><br>wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;deb https://debian.neo4j.com stable 4.3&#x27;</span> | sudo <span class="hljs-built_in">tee</span> -a /etc/apt/sources.list.d/neo4j.list<br>sudo apt-get update<br><br><span class="hljs-comment"># 安装neo4j的dep文件</span><br>dpkg -i neo4j_5.14.0_all.deb<br><br><span class="hljs-comment"># 启动neo4j</span><br>neo4j start<br><br><span class="hljs-comment"># 注意，安装neo4j的dep文件时，可能会遇到依赖缺失的问题，执行下述命令补全依赖即可</span><br>sudo apt --fix-broken install<br><br><span class="hljs-comment"># 修改默认密码</span><br>neo4j-admin dbms set-initial-password pwdofneo4j<br></code></pre></td></tr></table></figure>
-
-<h2 id="从非结构化数据构建知识图谱"><a href="#从非结构化数据构建知识图谱" class="headerlink" title="从非结构化数据构建知识图谱"></a>从非结构化数据构建知识图谱</h2><p>三个问题，参见<a target="_blank" rel="noopener" href="https://medium.com/neo4j/construct-knowledge-graphs-from-unstructured-text-877be33300a2">Neo4J开发人员博客</a>。</p>
+                <h1 id="1-分词和词嵌入"><a href="#1-分词和词嵌入" class="headerlink" title="1. 分词和词嵌入"></a>1. 分词和词嵌入</h1><p>分词是将原始文本切分成一系列基本单位(tokens)的过程，将连续文本转换为离散的标记序列，便于模型处理。常见算法包括基于空格/规则的分词，BPE(Byte-Pair Encoding)和WordPiece等。</p>
+<p>词嵌入是将token(词或子词)映射到低维连续向量空间，将离散符号转换为捕捉语义关系的连续向量表示。常见的词嵌入模型包括Word2Vec, GloVe, FastText, B预训练模型的嵌入层等。</p>
+<p>在LLM的处理流程中，一般</p>
 <ol>
-<li>Extracting nodes and relationships</li>
-<li>Entity disambiguation</li>
-<li>Importing into Neo4j</li>
+<li>先通过分词将文本切分称token序列。</li>
+<li>通过嵌入层将token ID转换为词嵌入向量。</li>
+<li>将词嵌入向量输入模型进行后续处理。</li>
 </ol>
-<h3 id="Extracting-nodes-and-relationships"><a href="#Extracting-nodes-and-relationships" class="headerlink" title="Extracting nodes and relationships"></a>Extracting nodes and relationships</h3><p>将<code>inout text</code>分割成适合<code>context window</code>大小的<code>chunk</code>，输入LLM，使其提取出<code>entities</code>和<code>relations</code>，并按一定格式输出，每个<code>chunk</code>与前一个<code>chunk</code>设置有重叠部分，以保证<code>entities</code>和<code>relations</code>的完整性。为了保持跨块不同类型实体的标记的一致性，向LLM提供了在先前块中提取的节点类型列表。</p>
-<h3 id="Entity-disambiguation"><a href="#Entity-disambiguation" class="headerlink" title="Entity disambiguation"></a>Entity disambiguation</h3><p>将<code>entities</code>按类型分组，将每一组分别提供给LLM，借助LLM消除重复实体并合并属性。</p>
-<h3 id="Importing-into-Neo4j"><a href="#Importing-into-Neo4j" class="headerlink" title="Importing into Neo4j"></a>Importing into Neo4j</h3><p>将LLM输出的<code>entities</code>和<code>relations</code>转为CSV格式，借助neo4j的<code>LOAD CSV</code>命令导入到neo4j中。</p>
+<h2 id="1-分词"><a href="#1-分词" class="headerlink" title="1. 分词"></a>1. 分词</h2><p>根据分词粒度的不同，可以分为整词切分，字词切分。</p>
+<p>整词切分是指以整个词或词组为最小单位对文本序列进行拆分。对于英文这类符号语言可以直接以空格为分隔符进行切分。对于中文这类无空格的语言，需要通过词典或规则进行切分。中文分词存在切分歧义和未登录词识别两大问题。切分歧义是指一个词可以有多种切分方式，如“中国人民银行”可以切分为“中国 人民银行”或“中国人民 银行”。未登录词识别是指识别出词典中未出现的新词。</p>
+<p>子词是介于整词和单个符号之间的一种粒度，子词切分算法将整词按照一定规则继续切分成单个字母或连续字母片段，对于未登录词，通过词汇表中所记录的子词进行合并，来对未登录词进行重建。</p>
+<p>常见的分词算法包括：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Byte_pair_encoding">BPE</a>, <a target="_blank" rel="noopener" href="https://medium.com/@atharv6f_47401/wordpiece-tokenization-a-bpe-variant-73cc48865cbf">WordPiece</a>, SentencePiece等。</p>
+<p>常见分词库包括：</p>
+<ul>
+<li>Tokenizers：Hugging Face的高性能分词库</li>
+<li>SentencePiece：Google开发的通用分词工具</li>
+<li>NLTK/SpaCy：传统NLP库中的分词组件</li>
+<li>tiktoken：OpenAI为GPT模型开发的分词库</li>
+</ul>
+<p>使用tokenizers库进行分词：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">from</span> tokenizers <span class="hljs-keyword">import</span> ByteLevelBPETokenizer<br><br><span class="hljs-comment"># 初始化分词器</span><br>tokenizer = ByteLevelBPETokenizer()<br><br><span class="hljs-comment"># 训练分词器</span><br>tokenizer.train(<br>    files=[<span class="hljs-string">"corpus.txt"</span>],              <span class="hljs-comment"># 语料文件列表</span><br>    vocab_size=<span class="hljs-number">32000</span>,                  <span class="hljs-comment"># 词表大小</span><br>    min_frequency=<span class="hljs-number">2</span>,                   <span class="hljs-comment"># 最小出现频率</span><br>    special_tokens=[<span class="hljs-string">"[PAD]"</span>, <span class="hljs-string">"[UNK]"</span>, <span class="hljs-string">"[CLS]"</span>, <span class="hljs-string">"[SEP]"</span>, <span class="hljs-string">"[MASK]"</span>]  <span class="hljs-comment"># 特殊符号</span><br>)<br><br><span class="hljs-comment"># 保存模型</span><br>tokenizer.save_model(<span class="hljs-string">"my_tokenizer"</span>)<br><br><span class="hljs-comment"># 加载并使用</span><br><span class="hljs-keyword">from</span> tokenizers <span class="hljs-keyword">import</span> Tokenizer<br>tokenizer = Tokenizer.from_file(<span class="hljs-string">"my_tokenizer/vocab.json"</span>)<br>tokens = tokenizer.encode(<span class="hljs-string">"这是一个测试句子"</span>)<br><span class="hljs-built_in">print</span>(tokens.tokens)<br></code></pre></td></tr></table></figure>
+
+<p><code>my_tokenizer</code>目录下将出现三个文件：</p>
+<ul>
+<li><code>vocab.json</code>：词表文件，<code>{"token": id,...}</code>的映射</li>
+<li><code>merges.txt</code>：BPE合并文件，记录BPE合并规则,如<code>"a b": "ab"</code></li>
+<li><code>tokenizer.json</code>: 完整的分词器配置文件，包括词表、合并规则等，预处理规则（如标准化，小写化等）</li>
+</ul>
+<h2 id="2-词嵌入"><a href="#2-词嵌入" class="headerlink" title="2. 词嵌入"></a>2. 词嵌入</h2><p>词嵌入是将token映射到低维连续向量空间的过程，将离散符号转换为捕捉语义关系的连续向量表示。一般可分为静态词嵌入和动态词嵌入。</p>
+<p>静态词嵌入一般采用基于矩阵分解，上下文窗口或者神经翻译模型。每个词都有一个固定的向量表示，不考虑上下文的变化。</p>
+<p>动态词嵌入基于预训练语言模型实现，词的表示随上下文变化而变化，通过自注意力机制捕捉上下文信息，同一个词在不同语境中会有不同的向量表示，目前的大语言模型如llama3等都采用动态词嵌入。</p>
+<p>llama3的嵌入层代码如下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">from</span> fairscale.nn.model_parallel.layers <span class="hljs-keyword">import</span> (<br>    ColumnParallelLinear,<br>    RowParallelLinear,<br>    VocabParallelEmbedding,<br>)<br><br><span class="hljs-comment"># ...</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Transformer</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, params: ModelArgs</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        self.params = params<br>        self.vocab_size = params.vocab_size<br>        self.n_layers = params.n_layers<br><br>        self.tok_embeddings = VocabParallelEmbedding(<br>            params.vocab_size, params.dim, init_method=<span class="hljs-keyword">lambda</span> x: x<br>        )<br><br>        <span class="hljs-comment"># ...</span><br><br>    <span class="hljs-comment"># ...</span><br></code></pre></td></tr></table></figure>
+
+<p>其中<code>VocabParallelEmbedding</code>是一个分布式的嵌入层，将token ID映射为词嵌入向量。简化起见可以看作<code>nn.Embedding</code>的分布式版本,其本质是一个查找表结构。</p>
+<p>维护一个<code>vocab_size x dim</code>的矩阵(<code>[vocab_size, embedding_dim]</code>)，通过token ID索引到对应的词嵌入向量。每一行代表词表中一个token的向量表示. 伪代码表示为</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs py"><span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">token_ids</span>):<br>    <span class="hljs-comment"># token_ids形状: [batch_size, seq_len]</span><br>    result = torch.zeros(batch_size, seq_len, embedding_dim)<br>    <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(batch_size):<br>        <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(seq_len):<br>            idx = token_ids[b, s]<br>            result[b, s] = weight_matrix[idx]<br>    <span class="hljs-keyword">return</span> result<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-1-利用预训练模型的词嵌入"><a href="#2-1-利用预训练模型的词嵌入" class="headerlink" title="2.1 利用预训练模型的词嵌入"></a>2.1 利用预训练模型的词嵌入</h3><p>预训练语言模型如llama3等一般为Decoder-Only架构，使用了因果注意力机制，因此在训练过程中只能看到当前位置之前的token，无法直接利用上下文信息。这种结构一般不适合做词嵌入。</p>
+<p>一般embedding模型采用双向Transformer结构，可以看到当前位置之前和之后的token，可以更好的捕捉上下文信息。如BERT模型。</p>
+<p>下文提出了一种将LLM转换为Embedding模型的方法</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2404.05961">LLM2Vec: Large Language Models Are Secretly Powerful Text Encoders</a></li>
+</ul>
+<h3 id="2-2-如何训练一个Embedding模型"><a href="#2-2-如何训练一个Embedding模型" class="headerlink" title="2.2 如何训练一个Embedding模型"></a>2.2 如何训练一个Embedding模型</h3><p>常见的Embedding模型如bge系列，jina，text2vec等</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoqi/p/18143552/bge-m3">bge-m3</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FlagOpen/FlagEmbedding/blob/master/research/BGE_M3/modeling.py">bge-m3 源码</a></li>
+</ul>
 
                 
               </div>
@@ -359,7 +500,9 @@
       
         <a href="/tags/LLM/" class="print-no-link">#LLM</a>
       
-        <a href="/tags/LangChain/" class="print-no-link">#LangChain</a>
+        <a href="/tags/Tokenization/" class="print-no-link">#Tokenization</a>
+      
+        <a href="/tags/Word-Embedding/" class="print-no-link">#Word Embedding</a>
       
     </div>
   
@@ -371,8 +514,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>使用Neo4j和LangChain集成非结构化和图知识增强QA</div>
-      <div>https://wenzhaoabc.github.io/llm/mistral-langchain-neo4j/</div>
+      <div>分词和词嵌入</div>
+      <div>https://wenzhaoabc.github.io/llm/tokenization/</div>
     </div>
     <div class="license-meta">
       
@@ -384,7 +527,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月3日</div>
+          <div>2025年2月26日</div>
         </div>
       
       
@@ -416,9 +559,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/llm/LLMHKTG/" title="港科广LLM讲座">
+                      <a href="/llm/attention/" title="注意力机制">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">港科广LLM讲座</span>
+                        <span class="hidden-mobile">注意力机制</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -426,8 +569,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/go/go-starter/" title="GO语言入门">
-                        <span class="hidden-mobile">GO语言入门</span>
+                      <a href="/llm/postion_encoding/" title="大语言模型中的位置编码">
+                        <span class="hidden-mobile">大语言模型中的位置编码</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
